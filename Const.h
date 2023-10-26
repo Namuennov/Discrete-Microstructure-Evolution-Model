@@ -2,6 +2,8 @@
 #include <vector>
 #include "enums.cpp"
 
+//#define SAVE_EACH_MESH_STATE
+
 struct Config {
 	boundaryCondition boundaryConditionType;
 	neighbourhood neighbourhoodType;
@@ -12,6 +14,7 @@ struct Config {
 struct NeighbourhoodSteps {
 	int stepX;
 	int stepY;
+	int stepZ;
 };
 
 class Const {

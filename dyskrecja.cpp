@@ -11,13 +11,14 @@ int main()
 {
     unsigned int meshSizeX = 300;
     unsigned int meshSizeY = 300;
+    unsigned int meshSizeZ = 1;
     unsigned int noNucleons = 100;
-    boundaryCondition boundaryConditionType = boundaryCondition::FIXED;
+    boundaryCondition boundaryConditionType = boundaryCondition::PERIODIC;
     neighbourhood neighbourhoodType = neighbourhood::VON_NEUMANN;
 
     auto startTimeMeasurement = std::chrono::system_clock::now();
     Config config(boundaryConditionType, neighbourhoodType);
-    Mesh* mesh = new Mesh(meshSizeX, meshSizeY);
+    Mesh* mesh = new Mesh(meshSizeX, meshSizeY, meshSizeZ);
     GrainGrowth* model = new GrainGrowth(mesh);
     model->setRandomInitialConditions(noNucleons);
     auto endTimeMeasurement = std::chrono::system_clock::now();
@@ -29,7 +30,7 @@ int main()
     auto elapsedTimeSimulation = std::chrono::duration_cast<std::chrono::microseconds>(endTimeMeasurement - startTimeMeasurement);
 
     startTimeMeasurement = std::chrono::system_clock::now();
-    mesh->saveStateToCSV("simulationResult.csv");
+    mesh->saveStateToVTK("simulationResult.vtk");
     endTimeMeasurement = std::chrono::system_clock::now();
     auto elapsedTimeWritingResultToFile = std::chrono::duration_cast<std::chrono::microseconds>(endTimeMeasurement - startTimeMeasurement);
 

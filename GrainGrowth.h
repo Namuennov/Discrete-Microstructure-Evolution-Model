@@ -9,7 +9,7 @@ class GrainGrowth
 {
 	Mesh* mesh;
 
-	bool didSimulationEnd();
+	bool didSimulationEnd(Mesh* _mesh);
 
 public:
 	GrainGrowth(Mesh* _mesh);

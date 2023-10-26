@@ -5,16 +5,19 @@
 
 class Mesh
 {
-	std::vector<std::vector<int>> cells;
+	std::vector<std::vector<std::vector<int>>> cells;
 
 public:
-	Mesh(unsigned int sizeX, unsigned int sizeY);
+	Mesh(unsigned int sizeX, unsigned int sizeY, unsigned int sizeZ);
+	Mesh(Mesh& mesh);
 
 	int getSizeX() const;
 	int getSizeY() const;
-	int getCell(unsigned int x, unsigned int y) const;
+	int getSizeZ() const;
+	int getCell(unsigned int x, unsigned int y, unsigned int z) const;
 
-	void setCell(unsigned int x, unsigned int y, int state);
+	void setCell(unsigned int x, unsigned int y, unsigned int z, int state);
 
 	void saveStateToCSV(std::string filename);
+	void saveStateToVTK(std::string filename);
 };

@@ -13,19 +13,39 @@ const std::vector<NeighbourhoodSteps> Const::getNeighbourhoodStepsForGivenNeighb
 	switch (_neighbourhood) {
 	case(neighbourhood::VON_NEUMANN):
 		return std::vector<NeighbourhoodSteps> {
-			{ -1, 0 },
-			{1, 0},
-			{0, -1},
-			{0, 1} };
+			{ -1, 0, 0 },
+			{ 1, 0, 0 },
+			{ 0, -1, 0 },
+			{ 0, 1, 0 },
+			{ 0, 0, -1 },
+			{ 0, 0, 1 }};
 	case(neighbourhood::MOORE):
 		return std::vector<NeighbourhoodSteps> {
-			{ -1, 0 },
-			{ 1, 0 },
-			{ 0, -1 },
-			{ 0, 1 },
-			{ -1, -1 },
-			{ 1, -1 },
-			{ -1, 1 },
-			{ 1, 1 }};
+			{ -1, 0, 0 },
+			{ 1, 0, 0 },
+			{ 0, -1, 0 },
+			{ 0, 1, 0 },
+			{ -1, -1, 0 },
+			{ 1, -1, 0 },
+			{ -1, 1, 0 },
+			{ 1, 1, 0 },
+			{ 0, 0, -1 },
+			{ -1, 0, -1 },
+			{ 1, 0, -1 },
+			{ 0, -1, -1 },
+			{ 0, 1, -1 },
+			{ -1, -1, -1 },
+			{ 1, -1, -1 },
+			{ -1, 1, -1 },
+			{ 1, 1, -1 },
+			{ 0, 0, 1 },
+			{ -1, 0, 1 },
+			{ 1, 0, 1 },
+			{ 0, -1, 1 },
+			{ 0, 1, 1 },
+			{ -1, -1, 1 },
+			{ 1, -1, 1 },
+			{ -1, 1, 1 },
+			{ 1, 1, 1 }};
 	}
 }
