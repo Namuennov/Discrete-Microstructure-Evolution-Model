@@ -4,37 +4,26 @@
 #include <string>
 #include <chrono>
 #include "enums.cpp"
+#include "Config.h"
 #include "Mesh.h"
 #include "GrainGrowth.h"
 
 int main()
 {
-    unsigned int meshSizeX = 300;
-    unsigned int meshSizeY = 300;
-    unsigned int meshSizeZ = 1;
-#ifdef PERFORM_CELLULAR_AUTOMATA_GRAIN_GROWTH
-    unsigned int noNucleons = 100;
-#endif
-#ifdef PERFORM_MONTE_CARLO_GRAIN_GROWTH
-    unsigned int noSteps = 300;
-#endif
-    boundaryCondition boundaryConditionType = boundaryCondition::PERIODIC;
-    neighbourhood neighbourhoodType = neighbourhood::MOORE;
-
-    Config config(boundaryConditionType, neighbourhoodType);
+    Config config("configurationFile.csv");
     std::chrono::time_point<std::chrono::system_clock> startTime, endTime;
 
 
 #ifdef PERFORM_CELLULAR_AUTOMATA_GRAIN_GROWTH
     startTime = std::chrono::system_clock::now();
-    Mesh* meshCA = new Mesh(meshSizeX, meshSizeY, meshSizeZ);
+    Mesh* meshCA = new Mesh(config.meshSizeX, config.meshSizeY, config.meshSizeZ);
     GrainGrowth* modelCA = new GrainGrowth(meshCA);
-    modelCA->setRandomInitialConditions(noNucleons);
+    modelCA->setRandomInitialConditions(config.CA_noNucleons);
     endTime = std::chrono::system_clock::now();
     auto elapsedTimeInitCA = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
 
     startTime = std::chrono::system_clock::now();
-    modelCA->runSimulationCA(config);
+    modelCA->runSimulationCA(config.boundaryConditionType, config.neighbourhoodType);
     endTime = std::chrono::system_clock::now();
     auto elapsedTimeSimulationCA = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
 
@@ -50,14 +39,14 @@ int main()
 
 #ifdef PERFORM_MONTE_CARLO_GRAIN_GROWTH
     startTime = std::chrono::system_clock::now();
-    Mesh* meshMC = new Mesh(meshSizeX, meshSizeY, meshSizeZ);
+    Mesh* meshMC = new Mesh(config.meshSizeX, config.meshSizeY, config.meshSizeZ);
     GrainGrowth* modelMC = new GrainGrowth(meshMC);
     modelMC->setRandomNotZeroStateInEveryCellInMesh();
     endTime = std::chrono::system_clock::now();
     auto elapsedTimeInitMC = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
 
     startTime = std::chrono::system_clock::now();
-    modelMC->runSimulationMC(config, noSteps);
+    modelMC->runSimulationMC(config.boundaryConditionType, config.neighbourhoodType, config.MC_noSteps);
     endTime = std::chrono::system_clock::now();
     auto elapsedTimeSimulationMC = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
 

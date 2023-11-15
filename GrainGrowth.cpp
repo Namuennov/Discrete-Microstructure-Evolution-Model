@@ -70,7 +70,7 @@ void GrainGrowth::setRandomNotZeroStateInEveryCellInMesh()
 				mesh->setCell(x, y, z, valueDistribution(randomGenerator));
 }
 
-void GrainGrowth::runSimulationCA(Config config)
+void GrainGrowth::runSimulationCA(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType)
 {
 	unsigned int sizeX = mesh->getSizeX();
 	unsigned int sizeY = mesh->getSizeY();
@@ -81,7 +81,7 @@ void GrainGrowth::runSimulationCA(Config config)
 	for (int i = 1; i <= Const::NUMBER_OF_CELL_STATES_BESIDES_ZERO; i++) cellNeighbourhood[i] = 0;
 	int dominantState, dominantStateCount;
 	std::map<int, unsigned int>::iterator iter;
-	std::vector<NeighbourhoodSteps> neighbourhoodSteps = Const::getNeighbourhoodStepsForGivenNeighbourhood(config.neighbourhoodType);
+	std::vector<NeighbourhoodSteps> neighbourhoodSteps = Const::getNeighbourhoodStepsForGivenNeighbourhood(neighbourhoodType);
 	int checkedCellState;
 
 #ifdef SAVE_EACH_MESH_STATE
@@ -98,7 +98,7 @@ void GrainGrowth::runSimulationCA(Config config)
 					for (int n = 0; n < neighbourhoodSteps.size(); n++) {
 						if (sizeZ == 1 && neighbourhoodSteps[n].stepZ != 0) continue;
 						checkedCellState = getNeighbourOfCell(temporaryMesh1, sizeX, sizeY, sizeZ, x, y, z,
-							neighbourhoodSteps[n], config.boundaryConditionType);
+							neighbourhoodSteps[n], boundaryConditionType);
 						if (checkedCellState == Const::CELL_NEIGHBOUR_DOES_NOT_EXIST_SPECIAL_VALUE) continue;
 						else if (checkedCellState != 0) cellNeighbourhood[checkedCellState]++;
 					}
@@ -135,14 +135,14 @@ void GrainGrowth::runSimulationCA(Config config)
 	delete temporaryMesh1;
 }
 
-void GrainGrowth::runSimulationMC(Config config, unsigned int noSteps)
+void GrainGrowth::runSimulationMC(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType, unsigned int noSteps)
 {
 	unsigned int sizeX = mesh->getSizeX();
 	unsigned int sizeY = mesh->getSizeY();
 	unsigned int sizeZ = mesh->getSizeZ();
 	Mesh* temporaryMesh1 = new Mesh((*mesh));
 	Mesh* temporaryMesh2 = new Mesh((*mesh));
-	std::vector<NeighbourhoodSteps> neighbourhoodSteps = Const::getNeighbourhoodStepsForGivenNeighbourhood(config.neighbourhoodType);
+	std::vector<NeighbourhoodSteps> neighbourhoodSteps = Const::getNeighbourhoodStepsForGivenNeighbourhood(neighbourhoodType);
 	int currentCellState, randomCellState, checkedCellState;
 	std::mt19937 randomGenerator = std::mt19937(time(0));
 	std::uniform_int_distribution<> neighbourhoodDistribution(0, neighbourhoodSteps.size() - 1);
@@ -183,13 +183,13 @@ void GrainGrowth::runSimulationMC(Config config, unsigned int noSteps)
 			else randomNeighbourhoodSteps = neighbourhoodSteps[neighbourhoodDistribution(randomGenerator)];
 
 			randomCellState = getNeighbourOfCell(temporaryMesh1, sizeX, sizeY, sizeZ, x, y, z,
-				randomNeighbourhoodSteps, config.boundaryConditionType);
+				randomNeighbourhoodSteps, boundaryConditionType);
 			if (randomCellState == Const::CELL_NEIGHBOUR_DOES_NOT_EXIST_SPECIAL_VALUE) continue;
 
 			for (int n = 0; n < neighbourhoodSteps.size(); n++) {
 				if (sizeZ == 1 && neighbourhoodSteps[n].stepZ != 0) continue;
 				checkedCellState = getNeighbourOfCell(temporaryMesh1, sizeX, sizeY, sizeZ, x, y, z,
-					neighbourhoodSteps[n], config.boundaryConditionType);
+					neighbourhoodSteps[n], boundaryConditionType);
 				if (checkedCellState == Const::CELL_NEIGHBOUR_DOES_NOT_EXIST_SPECIAL_VALUE) continue;
 				if (checkedCellState != currentCellState) currentEnergy++;
 				if (checkedCellState != randomCellState) checkedEnergy++;

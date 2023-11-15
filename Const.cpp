@@ -1,11 +1,5 @@
 #include "Const.h"
 
-Config::Config(boundaryCondition _boundaryConditionType, neighbourhood _neighbourhoodType)
-{
-	boundaryConditionType = _boundaryConditionType;
-	neighbourhoodType = _neighbourhoodType;
-}
-
 const unsigned int Const::NUMBER_OF_CELL_STATES_BESIDES_ZERO = 10;
 
 const int Const::CELL_NEIGHBOUR_DOES_NOT_EXIST_SPECIAL_VALUE = -1;

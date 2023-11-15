@@ -6,13 +6,6 @@
 #define PERFORM_MONTE_CARLO_GRAIN_GROWTH
 #define SAVE_EACH_MESH_STATE
 
-struct Config {
-	boundaryCondition boundaryConditionType;
-	neighbourhood neighbourhoodType;
-
-	Config(boundaryCondition _boundaryConditionType, neighbourhood _neighbourhoodType);
-};
-
 struct NeighbourhoodSteps {
 	int stepX;
 	int stepY;

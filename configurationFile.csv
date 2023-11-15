@@ -1,0 +1,7 @@
+Mesh Size X;100;
+Mesh Size Y;100;
+Mesh Size Z;100;
+Boundary Condition;Fixed;
+Neighbourhood;Von Neumann;
+CA - Nucleons;150;
+MC - Steps;250;

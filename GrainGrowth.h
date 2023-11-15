@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "Mesh.h"
 #include "Const.h"
+#include "enums.cpp"
 
 class GrainGrowth
 {
@@ -20,6 +21,6 @@ public:
 	void setRandomInitialConditions(unsigned int noNucleons);
 	void setRandomNotZeroStateInEveryCellInMesh();
 
-	void runSimulationCA(Config config);
-	void runSimulationMC(Config config, unsigned int noSteps);
+	void runSimulationCA(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType);
+	void runSimulationMC(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType, unsigned int noSteps);
 };
