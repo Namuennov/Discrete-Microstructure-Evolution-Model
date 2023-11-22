@@ -70,7 +70,7 @@ void GrainGrowth::setRandomNotZeroStateInEveryCellInMesh()
 				mesh->setCell(x, y, z, valueDistribution(randomGenerator));
 }
 
-void GrainGrowth::runSimulationCA(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType, std::string eachMeshStateDirectoryName = "")
+void GrainGrowth::runSimulationCA(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType, std::string eachMeshStateDirectoryName)
 {
 	unsigned int sizeX = mesh->getSizeX();
 	unsigned int sizeY = mesh->getSizeY();
@@ -137,7 +137,7 @@ void GrainGrowth::runSimulationCA(boundaryCondition boundaryConditionType, neigh
 	delete temporaryMesh1;
 }
 
-void GrainGrowth::runSimulationMC(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType, unsigned int noSteps, std::string eachMeshStateDirectoryName = "")
+void GrainGrowth::runSimulationMC(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType, unsigned int noSteps, std::string eachMeshStateDirectoryName)
 {
 	unsigned int sizeX = mesh->getSizeX();
 	unsigned int sizeY = mesh->getSizeY();
