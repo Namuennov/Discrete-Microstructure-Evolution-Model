@@ -2,9 +2,7 @@
 #include <vector>
 #include "enums.cpp"
 
-#define PERFORM_CELLULAR_AUTOMATA_GRAIN_GROWTH
-#define PERFORM_MONTE_CARLO_GRAIN_GROWTH
-#define SAVE_EACH_MESH_STATE
+//#define SAVE_EACH_MESH_STATE
 
 struct NeighbourhoodSteps {
 	int stepX;

@@ -70,7 +70,7 @@ void GrainGrowth::setRandomNotZeroStateInEveryCellInMesh()
 				mesh->setCell(x, y, z, valueDistribution(randomGenerator));
 }
 
-void GrainGrowth::runSimulationCA(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType)
+void GrainGrowth::runSimulationCA(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType, std::string eachMeshStateDirectoryName = "")
 {
 	unsigned int sizeX = mesh->getSizeX();
 	unsigned int sizeY = mesh->getSizeY();
@@ -85,8 +85,10 @@ void GrainGrowth::runSimulationCA(boundaryCondition boundaryConditionType, neigh
 	int checkedCellState;
 
 #ifdef SAVE_EACH_MESH_STATE
+	std::string eachMeshStateDirectory = "wynikiCA_" + eachMeshStateDirectoryName;
+	std::filesystem::create_directories(eachMeshStateDirectory);
 	int noMeshState = 0;
-	temporaryMesh1->saveStateToVTK("wynikiCA/state" + std::to_string(noMeshState) + ".vtk");
+	temporaryMesh1->saveStateToVTK(eachMeshStateDirectory + "/state" + std::to_string(noMeshState) + ".vtk");
 #endif
 	while (1) {
 		for (int x = 0; x < sizeX; x++) {
@@ -125,7 +127,7 @@ void GrainGrowth::runSimulationCA(boundaryCondition boundaryConditionType, neigh
 		temporaryMesh1 = temporaryMesh2;
 #ifdef SAVE_EACH_MESH_STATE
 		noMeshState++;
-		temporaryMesh1->saveStateToVTK("wynikiCA/state" + std::to_string(noMeshState) + ".vtk");
+		temporaryMesh1->saveStateToVTK(eachMeshStateDirectory + "/state" + std::to_string(noMeshState) + ".vtk");
 #endif
 		if (!didSimulationEnd(temporaryMesh1)) temporaryMesh2 = new Mesh((*temporaryMesh1));
 		else break;
@@ -135,7 +137,7 @@ void GrainGrowth::runSimulationCA(boundaryCondition boundaryConditionType, neigh
 	delete temporaryMesh1;
 }
 
-void GrainGrowth::runSimulationMC(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType, unsigned int noSteps)
+void GrainGrowth::runSimulationMC(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType, unsigned int noSteps, std::string eachMeshStateDirectoryName = "")
 {
 	unsigned int sizeX = mesh->getSizeX();
 	unsigned int sizeY = mesh->getSizeY();
@@ -164,8 +166,10 @@ void GrainGrowth::runSimulationMC(boundaryCondition boundaryConditionType, neigh
 	int x, y, z;
 
 #ifdef SAVE_EACH_MESH_STATE
+	std::string eachMeshStateDirectory = "wynikiMC_" + eachMeshStateDirectoryName;
+	std::filesystem::create_directories(eachMeshStateDirectory);
 	int noMeshState = 0;
-	temporaryMesh1->saveStateToVTK("wynikiMC/state" + std::to_string(noMeshState) + ".vtk");
+	temporaryMesh1->saveStateToVTK(eachMeshStateDirectory + "/state" + std::to_string(noMeshState) + ".vtk");
 #endif
 	for (int i = 0; i < noSteps; i++) {
 		for (int j = 0; j < noCells; j++) {
@@ -204,7 +208,7 @@ void GrainGrowth::runSimulationMC(boundaryCondition boundaryConditionType, neigh
 		temporaryMesh1 = temporaryMesh2;
 #ifdef SAVE_EACH_MESH_STATE
 		noMeshState++;
-		temporaryMesh1->saveStateToVTK("wynikiMC/state" + std::to_string(noMeshState) + ".vtk");
+		temporaryMesh1->saveStateToVTK(eachMeshStateDirectory + "/state" + std::to_string(noMeshState) + ".vtk");
 #endif
 		temporaryMesh2 = new Mesh((*temporaryMesh1));
 		std::shuffle(randPermIds, &randPermIds[noCells - 1], randomGenerator);

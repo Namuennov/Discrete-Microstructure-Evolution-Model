@@ -1,16 +1,18 @@
 #include "Config.h"
 
+const std::string Config::defaultSimulationName = "";
 const unsigned int Config::defaultMeshSizeX = 300;
 const unsigned int Config::defaultMeshSizeY = 300;
 const unsigned int Config::defaultMeshSizeZ = 1;
 const boundaryCondition Config::defaultBoundaryConditionType = boundaryCondition::PERIODIC;
 const neighbourhood Config::defaultNeighbourhoodType = neighbourhood::VON_NEUMANN;
-const unsigned int Config::defaultCA_noNucleons = 100;
-const unsigned int Config::defaultMC_noSteps = 200;
+const unsigned int Config::defaultCA_noNucleons = -1;
+const unsigned int Config::defaultMC_noSteps = -1;
 
-Config::Config(unsigned int _meshSizeX, unsigned int _meshSizeY, unsigned int _meshSizeZ, boundaryCondition _boundaryConditionType,
-	neighbourhood _neighbourhoodType, unsigned int _CA_noNucleons, unsigned int _MC_noSteps)
+Config::Config(std::string _simulationName, unsigned int _meshSizeX, unsigned int _meshSizeY, unsigned int _meshSizeZ,
+	boundaryCondition _boundaryConditionType, neighbourhood _neighbourhoodType, unsigned int _CA_noNucleons, unsigned int _MC_noSteps)
 {
+	simulationName = _simulationName;
 	meshSizeX = _meshSizeX;
 	meshSizeY = _meshSizeY;
 	meshSizeZ = _meshSizeZ;
@@ -22,6 +24,7 @@ Config::Config(unsigned int _meshSizeX, unsigned int _meshSizeY, unsigned int _m
 
 Config::Config(std::string filename)
 {
+	simulationName = defaultSimulationName;
 	meshSizeX = defaultMeshSizeX;
 	meshSizeY = defaultMeshSizeY;
 	meshSizeZ = defaultMeshSizeZ;
@@ -42,7 +45,10 @@ Config::Config(std::string filename)
 		else if (line.find(';') != std::string::npos) delimiter = ';';
 
 		while (1) {
-			if (line.find("Mesh Size X") != std::string::npos) meshSizeX = std::stoi(line.substr(line.find(delimiter) + 1));
+			if (line.find("Simulation Name") != std::string::npos) {
+				simulationName = (line.substr(line.find(delimiter) + 1));
+				if (simulationName[simulationName.size() - 1] == delimiter) simulationName = simulationName.substr(0, simulationName.size() - 1);
+			} else if (line.find("Mesh Size X") != std::string::npos) meshSizeX = std::stoi(line.substr(line.find(delimiter) + 1));
 			else if (line.find("Mesh Size Y") != std::string::npos) meshSizeY = std::stoi(line.substr(line.find(delimiter) + 1));
 			else if (line.find("Mesh Size Z") != std::string::npos) meshSizeZ = std::stoi(line.substr(line.find(delimiter) + 1));
 			else if (line.find("Boundary Condition") != std::string::npos) {

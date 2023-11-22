@@ -3,6 +3,7 @@
 #include <ctime>
 #include <map>
 #include <algorithm>
+#include <filesystem>
 #include "Mesh.h"
 #include "Const.h"
 #include "enums.cpp"
@@ -21,6 +22,6 @@ public:
 	void setRandomInitialConditions(unsigned int noNucleons);
 	void setRandomNotZeroStateInEveryCellInMesh();
 
-	void runSimulationCA(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType);
-	void runSimulationMC(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType, unsigned int noSteps);
+	void runSimulationCA(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType, std::string eachMeshStateDirectoryName = "");
+	void runSimulationMC(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType, unsigned int noSteps, std::string eachMeshStateDirectoryName = "");
 };

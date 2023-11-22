@@ -6,6 +6,7 @@
 
 struct Config {
 private:
+	static const std::string defaultSimulationName;
 	static const unsigned int defaultMeshSizeX;
 	static const unsigned int defaultMeshSizeY;
 	static const unsigned int defaultMeshSizeZ;
@@ -15,6 +16,7 @@ private:
 	static const unsigned int defaultMC_noSteps;
 
 public:
+	std::string simulationName;
 	unsigned int meshSizeX;
 	unsigned int meshSizeY;
 	unsigned int meshSizeZ;
@@ -23,7 +25,7 @@ public:
 	unsigned int CA_noNucleons;
 	unsigned int MC_noSteps;
 
-	Config(unsigned int _meshSizeX, unsigned int _meshSizeY, unsigned int _meshSizeZ, boundaryCondition _boundaryConditionType,
-		neighbourhood _neighbourhoodType, unsigned int _CA_noNucleons, unsigned int _MC_noSteps);
+	Config(std::string _simulationName, unsigned int _meshSizeX, unsigned int _meshSizeY, unsigned int _meshSizeZ,
+		boundaryCondition _boundaryConditionType, neighbourhood _neighbourhoodType, unsigned int _CA_noNucleons, unsigned int _MC_noSteps);
 	Config(std::string filename);
 };
