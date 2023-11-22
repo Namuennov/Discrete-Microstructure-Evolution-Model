@@ -6,8 +6,8 @@ const unsigned int Config::defaultMeshSizeY = 300;
 const unsigned int Config::defaultMeshSizeZ = 1;
 const boundaryCondition Config::defaultBoundaryConditionType = boundaryCondition::PERIODIC;
 const neighbourhood Config::defaultNeighbourhoodType = neighbourhood::VON_NEUMANN;
-const unsigned int Config::defaultCA_noNucleons = -1;
-const unsigned int Config::defaultMC_noSteps = -1;
+const unsigned int Config::defaultCA_noNucleons = 0;
+const unsigned int Config::defaultMC_noSteps = 0;
 
 Config::Config(std::string _simulationName, unsigned int _meshSizeX, unsigned int _meshSizeY, unsigned int _meshSizeZ,
 	boundaryCondition _boundaryConditionType, neighbourhood _neighbourhoodType, unsigned int _CA_noNucleons, unsigned int _MC_noSteps)
