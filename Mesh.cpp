@@ -2,21 +2,12 @@
 
 Mesh::Mesh(unsigned int sizeX, unsigned int sizeY, unsigned int sizeZ)
 {
-	cells.resize(sizeX);
-	for (int x = 0; x < sizeX; x++) cells[x].resize(sizeY);
-	for (int x = 0; x < sizeX; x++) for (int y = 0; y < sizeY; y++) cells[x][y].resize(sizeZ);
-	for (int x = 0; x < sizeX; x++) for (int y = 0; y < sizeY; y++) for (int z = 0; z < sizeZ; z++) cells[x][y][z] = 0;
+	cells.resize(sizeX, std::vector<std::vector<int>>(sizeY, std::vector<int>(sizeZ, 0)));
 }
 
 Mesh::Mesh(Mesh& mesh)
 {
-	unsigned int sizeX = mesh.getSizeX();
-	unsigned int sizeY = mesh.getSizeY();
-	unsigned int sizeZ = mesh.getSizeZ();
-	cells.resize(sizeX);
-	for (int x = 0; x < sizeX; x++) cells[x].resize(sizeY);
-	for (int x = 0; x < sizeX; x++) for (int y = 0; y < sizeY; y++) cells[x][y].resize(sizeZ);
-	for (int x = 0; x < sizeX; x++) for (int y = 0; y < sizeY; y++) for (int z = 0; z < sizeZ; z++) cells[x][y][z] = mesh.getCell(x, y, z);
+	cells = mesh.getAllCells();
 }
 
 int Mesh::getSizeX() const { return cells.size(); }
@@ -26,6 +17,8 @@ int Mesh::getSizeY() const { return cells[0].size(); }
 int Mesh::getSizeZ() const { return cells[0][0].size(); }
 
 int Mesh::getCell(unsigned int x, unsigned int y, unsigned int z) const { return cells[x][y][z]; }
+
+std::vector<std::vector<std::vector<int>>> Mesh::getAllCells() { return cells; }
 
 void Mesh::setCell(unsigned int x, unsigned int y, unsigned int z, int state) { cells[x][y][z] = state; }
 

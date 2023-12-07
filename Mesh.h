@@ -15,6 +15,7 @@ public:
 	int getSizeY() const;
 	int getSizeZ() const;
 	int getCell(unsigned int x, unsigned int y, unsigned int z) const;
+	std::vector<std::vector<std::vector<int>>> getAllCells();
 
 	void setCell(unsigned int x, unsigned int y, unsigned int z, int state);
 
