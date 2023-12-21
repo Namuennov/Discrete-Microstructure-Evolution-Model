@@ -2,7 +2,6 @@
 
 bool GrainGrowth::didSimulationEnd(Mesh* _mesh)
 {
-	//TODO - mo¿e lepiej zamiast tego dekrementowaæ licznik ,,pustych" komórek i koñczyæ symulacjê jak siê skoñcz¹?
 	int sizeX = _mesh->getSizeX();
 	int sizeY = _mesh->getSizeY();
 	int sizeZ = _mesh->getSizeZ();
