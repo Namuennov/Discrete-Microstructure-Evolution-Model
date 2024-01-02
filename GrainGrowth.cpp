@@ -72,9 +72,9 @@ void GrainGrowth::setRandomNotZeroStateInEveryCellInMesh()
 
 void GrainGrowth::runSimulationCA(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType, std::string eachMeshStateDirectoryName)
 {
-	unsigned int sizeX = mesh->getSizeX();
-	unsigned int sizeY = mesh->getSizeY();
-	unsigned int sizeZ = mesh->getSizeZ();
+	const unsigned int sizeX = mesh->getSizeX();
+	const unsigned int sizeY = mesh->getSizeY();
+	const unsigned int sizeZ = mesh->getSizeZ();
 	Mesh* temporaryMesh1 = new Mesh((*mesh));
 	Mesh* temporaryMesh2 = new Mesh((*mesh));
 	std::map<int, unsigned int> cellNeighbourhood;
@@ -91,6 +91,7 @@ void GrainGrowth::runSimulationCA(boundaryCondition boundaryConditionType, neigh
 	temporaryMesh1->saveStateToVTK(eachMeshStateDirectory + "/state" + std::to_string(noMeshState) + ".vtk");
 #endif
 	while (1) {
+#pragma omp parallel for schedule(static) shared(boundaryConditionType, sizeX, sizeY, sizeZ, temporaryMesh1, temporaryMesh2, neighbourhoodSteps) firstprivate(cellNeighbourhood) private(dominantState, dominantStateCount, iter, checkedCellState)
 		for (int x = 0; x < sizeX; x++) {
 			for (int y = 0; y < sizeY; y++) {
 				for (int z = 0; z < sizeZ; z++) {
@@ -139,9 +140,9 @@ void GrainGrowth::runSimulationCA(boundaryCondition boundaryConditionType, neigh
 
 void GrainGrowth::runSimulationMC(boundaryCondition boundaryConditionType, neighbourhood neighbourhoodType, unsigned int noSteps, std::string eachMeshStateDirectoryName)
 {
-	unsigned int sizeX = mesh->getSizeX();
-	unsigned int sizeY = mesh->getSizeY();
-	unsigned int sizeZ = mesh->getSizeZ();
+	const unsigned int sizeX = mesh->getSizeX();
+	const unsigned int sizeY = mesh->getSizeY();
+	const unsigned int sizeZ = mesh->getSizeZ();
 	Mesh* temporaryMesh1 = new Mesh((*mesh));
 	Mesh* temporaryMesh2 = new Mesh((*mesh));
 	std::vector<NeighbourhoodSteps> neighbourhoodSteps = Const::getNeighbourhoodStepsForGivenNeighbourhood(neighbourhoodType);
@@ -172,6 +173,7 @@ void GrainGrowth::runSimulationMC(boundaryCondition boundaryConditionType, neigh
 	temporaryMesh1->saveStateToVTK(eachMeshStateDirectory + "/state" + std::to_string(noMeshState) + ".vtk");
 #endif
 	for (int i = 0; i < noSteps; i++) {
+#pragma omp parallel for schedule(static) shared(boundaryConditionType, noSteps, sizeX, sizeY, sizeZ, temporaryMesh1, temporaryMesh2, neighbourhoodSteps, randomGenerator, neighbourhoodDistribution, noCells, randPermIds) firstprivate(currentEnergy, checkedEnergy) private(currentCellState, randomCellState, checkedCellState, randomNeighbourhoodSteps, x, y, z)
 		for (int j = 0; j < noCells; j++) {
 			x = randPermIds[j][0];
 			y = randPermIds[j][1];

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <chrono>
+#include <omp.h>
 #include "enums.cpp"
 #include "Config.h"
 #include "Mesh.h"
@@ -10,6 +11,8 @@
 
 int main(int argc, char** argv)
 {
+    omp_set_num_threads(2);
+
     bool PERFORM_CELLULAR_AUTOMATA_GRAIN_GROWTH = false;
     bool PERFORM_MONTE_CARLO_GRAIN_GROWTH = false;
 
