@@ -17,6 +17,7 @@ struct sizes
 
 class TestParallelism
 {
+public:
 	static void CA();
 	static void MC();
 };

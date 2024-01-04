@@ -16,8 +16,8 @@ void TestParallelism::CA()
     std::vector<neighbourhood> neighbourhoods = { neighbourhood::VON_NEUMANN, neighbourhood::MOORE };
     int neighbourhoodsSize = neighbourhoods.size();
 
-    std::string resultsFilename = "CA_results.csv";
-    std::ofstream resultsFile(resultsFilename);
+    //|noSizes|noNoThreads|noNeighbourhood|noResult|
+    std::map<int, std::map<int, std::map<int, std::map<int, int>>>> allResults;
 
     for (int t = 0; t < noThreadsSize; t++) {
         omp_set_num_threads(noThreads[t]);
@@ -63,9 +63,35 @@ void TestParallelism::CA()
                 timeMeasurementsFile << "Time of writing the result to a file CA: " << elapsedTimeWritingResultToFileCA.count() << " microseconds";
                 //,,standard" ^
 
-                resultsFile << elapsedTimeInitCA.count() << ";\n" << elapsedTimeSimulationCA.count() << ";\n" <<
-                    elapsedTimeWritingResultToFileCA.count() << ";\n\n";
+                allResults[m][t][n][0] = elapsedTimeInitCA.count();
+                allResults[m][t][n][1] = elapsedTimeSimulationCA.count();
+                allResults[m][t][n][2] = elapsedTimeWritingResultToFileCA.count();
             }
+        }
+    }
+
+    std::string resultsFilename = "CA_results.csv";
+    std::ofstream resultsFile(resultsFilename);
+    for (int m = 0; m < meshSizesSize; m++) {
+        for (int t = 0; t < noThreadsSize; t++)
+            for (int n = 0; n < neighbourhoodsSize; n++)
+                resultsFile << allResults[m][t][n][0] << ";";
+        resultsFile << "\n";
+        for (int t = 0; t < noThreadsSize; t++)
+            for (int n = 0; n < neighbourhoodsSize; n++)
+                resultsFile << allResults[m][t][n][1] << ";";
+        resultsFile << "\n";
+        for (int t = 0; t < noThreadsSize; t++)
+            for (int n = 0; n < neighbourhoodsSize; n++)
+                resultsFile << allResults[m][t][n][2] << ";";
+        resultsFile << "\n";
+    }
+    resultsFile << "\n\n";
+    for (int n = 0; n < neighbourhoodsSize; n++) {
+        for (int m = 0; m < meshSizesSize; m++) {
+            for (int t = 0; t < noThreadsSize; t++)
+                resultsFile << allResults[m][t][n][1] << ";";
+            resultsFile << "\n";
         }
     }
     resultsFile.close();
@@ -87,8 +113,8 @@ void TestParallelism::MC()
     std::vector<neighbourhood> neighbourhoods = { neighbourhood::VON_NEUMANN, neighbourhood::MOORE };
     int neighbourhoodsSize = neighbourhoods.size();
 
-    std::string resultsFilename = "MC_results.csv";
-    std::ofstream resultsFile(resultsFilename);
+    //|noSizes|noNoThreads|noNeighbourhood|noResult|
+    std::map<int, std::map<int, std::map<int, std::map<int, int>>>> allResults;
 
     for (int t = 0; t < noThreadsSize; t++) {
         omp_set_num_threads(noThreads[t]);
@@ -134,9 +160,35 @@ void TestParallelism::MC()
                 timeMeasurementsFile << "Time of writing the result to a file MC: " << elapsedTimeWritingResultToFileMC.count() << " microseconds";
                 //,,standard" ^
 
-                resultsFile << elapsedTimeInitMC.count() << ";\n" << elapsedTimeSimulationMC.count() << ";\n" <<
-                    elapsedTimeWritingResultToFileMC.count() << ";\n\n";
+                allResults[m][t][n][0] = elapsedTimeInitMC.count();
+                allResults[m][t][n][1] = elapsedTimeSimulationMC.count();
+                allResults[m][t][n][2] = elapsedTimeWritingResultToFileMC.count();
             }
+        }
+    }
+
+    std::string resultsFilename = "MC_results.csv";
+    std::ofstream resultsFile(resultsFilename);
+    for (int m = 0; m < meshSizesSize; m++) {
+        for (int t = 0; t < noThreadsSize; t++)
+            for (int n = 0; n < neighbourhoodsSize; n++)
+                resultsFile << allResults[m][t][n][0] << ";";
+        resultsFile << "\n";
+        for (int t = 0; t < noThreadsSize; t++)
+            for (int n = 0; n < neighbourhoodsSize; n++)
+                resultsFile << allResults[m][t][n][1] << ";";
+        resultsFile << "\n";
+        for (int t = 0; t < noThreadsSize; t++)
+            for (int n = 0; n < neighbourhoodsSize; n++)
+                resultsFile << allResults[m][t][n][2] << ";";
+        resultsFile << "\n";
+    }
+    resultsFile << "\n\n";
+    for (int n = 0; n < neighbourhoodsSize; n++) {
+        for (int m = 0; m < meshSizesSize; m++) {
+            for (int t = 0; t < noThreadsSize; t++)
+                resultsFile << allResults[m][t][n][1] << ";";
+            resultsFile << "\n";
         }
     }
     resultsFile.close();

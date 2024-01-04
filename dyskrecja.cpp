@@ -8,10 +8,11 @@
 #include "Config.h"
 #include "Mesh.h"
 #include "GrainGrowth.h"
+#include "TestParallelism.h"
 
 int main(int argc, char** argv)
 {
-    omp_set_num_threads(2);
+    omp_set_num_threads(6);
 
     bool PERFORM_CELLULAR_AUTOMATA_GRAIN_GROWTH = false;
     bool PERFORM_MONTE_CARLO_GRAIN_GROWTH = false;
