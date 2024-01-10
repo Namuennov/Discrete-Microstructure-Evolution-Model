@@ -10,85 +10,79 @@
 
 int main(int argc, char** argv)
 {
-    bool PERFORM_CELLULAR_AUTOMATA_GRAIN_GROWTH = false;
-    bool PERFORM_MONTE_CARLO_GRAIN_GROWTH = false;
+    //test dla CA v
+    //Config config("test2D", 1000, 1000, 1, boundaryCondition::PERIODIC, neighbourhood::VON_NEUMANN, 100, 50);
+    ////Config config("test2D", 1000, 1000, 1, boundaryCondition::PERIODIC, neighbourhood::MOORE, 100, 50);
+    ////Config config("test3D", 100, 100, 100, boundaryCondition::PERIODIC, neighbourhood::VON_NEUMANN, 100, 50);
+    ////Config config("test3D", 100, 100, 100, boundaryCondition::PERIODIC, neighbourhood::MOORE, 100, 50);
+    //std::chrono::time_point<std::chrono::system_clock> startTime, endTime;
+    //std::chrono::microseconds elapsedTimeInitCA, elapsedTimeSimulationCA, elapsedTimeWritingResultToFileCA;
 
-    //zaczynamy od 1, bo pierwszy argument to nazwa programu
-    for (int i = 1; i < argc; i++) {
-        
-        Config config(static_cast<std::string>(argv[i]));
-        if (config.CA_noNucleons > 0) {
-            PERFORM_CELLULAR_AUTOMATA_GRAIN_GROWTH = true;
-        }
-        if (config.MC_noSteps > 0) {
-            PERFORM_MONTE_CARLO_GRAIN_GROWTH = true;
-        }
+    //startTime = std::chrono::system_clock::now();
+    //Mesh* meshInit = new Mesh(config.meshSizeX, config.meshSizeY, config.meshSizeZ);
+    //GrainGrowth* modelCA = new GrainGrowth(meshInit);
+    //modelCA->setRandomInitialConditions(config.CA_noNucleons);
+    //endTime = std::chrono::system_clock::now();
+    //elapsedTimeInitCA = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
 
-        std::chrono::time_point<std::chrono::system_clock> startTime, endTime;
-        std::chrono::microseconds elapsedTimeInitCA, elapsedTimeSimulationCA, elapsedTimeWritingResultToFileCA;
-        std::chrono::microseconds elapsedTimeInitMC, elapsedTimeSimulationMC, elapsedTimeWritingResultToFileMC;
+    //startTime = std::chrono::system_clock::now();
+    //Mesh* resultMesh = modelCA->runSimulationCA(config.boundaryConditionType, config.neighbourhoodType, argc, argv);
+    //endTime = std::chrono::system_clock::now();
+    //elapsedTimeSimulationCA = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
 
-        if (PERFORM_CELLULAR_AUTOMATA_GRAIN_GROWTH) {
-            startTime = std::chrono::system_clock::now();
-            Mesh* meshCA = new Mesh(config.meshSizeX, config.meshSizeY, config.meshSizeZ);
-            GrainGrowth* modelCA = new GrainGrowth(meshCA);
-            modelCA->setRandomInitialConditions(config.CA_noNucleons);
-            endTime = std::chrono::system_clock::now();
-            elapsedTimeInitCA = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+    //startTime = std::chrono::system_clock::now();
+    //resultMesh->saveStateToVTK("simulationResultCA_" + config.simulationName + ".vtk");
+    //endTime = std::chrono::system_clock::now();
+    //elapsedTimeWritingResultToFileCA = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
 
-            startTime = std::chrono::system_clock::now();
-            modelCA->runSimulationCA(config.boundaryConditionType, config.neighbourhoodType, config.simulationName);
-            endTime = std::chrono::system_clock::now();
-            elapsedTimeSimulationCA = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+    //delete modelCA;
+    //delete meshInit;
+    //delete resultMesh;
 
-            startTime = std::chrono::system_clock::now();
-            meshCA->saveStateToVTK("simulationResultCA_" + config.simulationName + ".vtk");
-            endTime = std::chrono::system_clock::now();
-            elapsedTimeWritingResultToFileCA = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
-
-            delete modelCA;
-            delete meshCA;
-        }
+    //std::string timeMeasurementsFilename = "timeMeasurements_" + config.simulationName + ".txt";
+    //std::ofstream timeMeasurementsFile(timeMeasurementsFilename);
+    //timeMeasurementsFile << "Time of initialization CA: " << elapsedTimeInitCA.count() << " microseconds\n";
+    //timeMeasurementsFile << "Time of simulation CA: " << elapsedTimeSimulationCA.count() << " microseconds\n";
+    //timeMeasurementsFile << "Time of writing the result to a file CA: " << elapsedTimeWritingResultToFileCA.count() << " microseconds";
+    //timeMeasurementsFile.close();
+    //test dla CA ^
 
 
-        if (PERFORM_MONTE_CARLO_GRAIN_GROWTH) {
-            startTime = std::chrono::system_clock::now();
-            Mesh* meshMC = new Mesh(config.meshSizeX, config.meshSizeY, config.meshSizeZ);
-            GrainGrowth* modelMC = new GrainGrowth(meshMC);
-            modelMC->setRandomNotZeroStateInEveryCellInMesh();
-            endTime = std::chrono::system_clock::now();
-            elapsedTimeInitMC = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
 
-            startTime = std::chrono::system_clock::now();
-            modelMC->runSimulationMC(config.boundaryConditionType, config.neighbourhoodType, config.MC_noSteps, config.simulationName);
-            endTime = std::chrono::system_clock::now();
-            elapsedTimeSimulationMC = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+    //test dla MC v
+    Config config("test2D", 1000, 1000, 1, boundaryCondition::PERIODIC, neighbourhood::VON_NEUMANN, 100, 50);
+    //Config config("test2D", 1000, 1000, 1, boundaryCondition::PERIODIC, neighbourhood::MOORE, 100, 50);
+    //Config config("test3D", 100, 100, 100, boundaryCondition::PERIODIC, neighbourhood::VON_NEUMANN, 100, 50);
+    //Config config("test3D", 100, 100, 100, boundaryCondition::PERIODIC, neighbourhood::MOORE, 100, 50);
+    std::chrono::time_point<std::chrono::system_clock> startTime, endTime;
+    std::chrono::microseconds elapsedTimeInitMC, elapsedTimeSimulationMC, elapsedTimeWritingResultToFileMC;
 
-            startTime = std::chrono::system_clock::now();
-            meshMC->saveStateToVTK("simulationResultMC_" + config.simulationName + ".vtk");
-            endTime = std::chrono::system_clock::now();
-            elapsedTimeWritingResultToFileMC = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+    startTime = std::chrono::system_clock::now();
+    Mesh* meshInit = new Mesh(config.meshSizeX, config.meshSizeY, config.meshSizeZ);
+    GrainGrowth* modelMC = new GrainGrowth(meshInit);
+    modelMC->setRandomNotZeroStateInEveryCellInMesh();
+    endTime = std::chrono::system_clock::now();
+    elapsedTimeInitMC = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
 
-            delete modelMC;
-            delete meshMC;
-        }
+    startTime = std::chrono::system_clock::now();
+    Mesh* resultMesh = modelMC->runSimulationMC(config.boundaryConditionType, config.neighbourhoodType, config.MC_noSteps, argc, argv);
+    endTime = std::chrono::system_clock::now();
+    elapsedTimeSimulationMC = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
 
+    startTime = std::chrono::system_clock::now();
+    resultMesh->saveStateToVTK("simulationResultMC_" + config.simulationName + ".vtk");
+    endTime = std::chrono::system_clock::now();
+    elapsedTimeWritingResultToFileMC = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
 
-        std::string timeMeasurementsFilename = "timeMeasurements_" + config.simulationName + ".txt";
-        std::ofstream timeMeasurementsFile(timeMeasurementsFilename);
-        if (PERFORM_CELLULAR_AUTOMATA_GRAIN_GROWTH) {
-            timeMeasurementsFile << "Time of initialization CA: " << elapsedTimeInitCA.count() << " microseconds\n";
-            timeMeasurementsFile << "Time of simulation CA: " << elapsedTimeSimulationCA.count() << " microseconds\n";
-            timeMeasurementsFile << "Time of writing the result to a file CA: " << elapsedTimeWritingResultToFileCA.count() << " microseconds";
-        }
-        if (PERFORM_MONTE_CARLO_GRAIN_GROWTH) {
-            timeMeasurementsFile << "Time of initialization MC: " << elapsedTimeInitMC.count() << " microseconds\n";
-            timeMeasurementsFile << "Time of simulation MC: " << elapsedTimeSimulationMC.count() << " microseconds\n";
-            timeMeasurementsFile << "Time of writing the result to a file MC: " << elapsedTimeWritingResultToFileMC.count() << " microseconds";
-        }
-        timeMeasurementsFile.close();
+    delete modelMC;
+    delete meshInit;
+    delete resultMesh;
 
-        PERFORM_CELLULAR_AUTOMATA_GRAIN_GROWTH = false;
-        PERFORM_MONTE_CARLO_GRAIN_GROWTH = false;
-    }
+    std::string timeMeasurementsFilename = "timeMeasurements_" + config.simulationName + ".txt";
+    std::ofstream timeMeasurementsFile(timeMeasurementsFilename);
+    timeMeasurementsFile << "Time of initialization MC: " << elapsedTimeInitMC.count() << " microseconds\n";
+    timeMeasurementsFile << "Time of simulation MC: " << elapsedTimeSimulationMC.count() << " microseconds\n";
+    timeMeasurementsFile << "Time of writing the result to a file MC: " << elapsedTimeWritingResultToFileMC.count() << " microseconds";
+    timeMeasurementsFile.close();
+    //test dla MC ^
 }

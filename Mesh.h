@@ -10,6 +10,7 @@ class Mesh
 public:
 	Mesh(unsigned int sizeX, unsigned int sizeY, unsigned int sizeZ);
 	Mesh(Mesh& mesh);
+	Mesh(Mesh& mesh, int mpiRank, int mpiSize);
 
 	int getSizeX() const;
 	int getSizeY() const;

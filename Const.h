@@ -2,8 +2,6 @@
 #include <vector>
 #include "enums.cpp"
 
-//#define SAVE_EACH_MESH_STATE
-
 struct NeighbourhoodSteps {
 	int stepX;
 	int stepY;
